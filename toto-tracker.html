@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TOTO Slip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B1524;
+    --ink-2:#111E33;
+    --panel:#0F1B2E;
+    --panel-line:#22334C;
+    --paper:#F4F0E6;
+    --paper-dim:#C9C2B0;
+    --gold:#D9A934;
+    --gold-dim:#8A6E2A;
+    --teal:#4FA0A8;
+    --red:#C4544A;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, #16263F 0%, transparent 60%),
+      radial-gradient(900px 500px at 100% 10%, #14243A 0%, transparent 55%),
+      var(--ink);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    padding:32px 20px 60px;
+  }
+  .wrap{max-width:1040px;margin:0 auto;}
+
+  header{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:28px;
+    border-bottom:1px solid var(--panel-line);
+    padding-bottom:18px;
+    flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:14px;}
+  .brand-mark{
+    width:46px;height:46px;border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #FCEBB0, var(--gold) 55%, var(--gold-dim) 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;color:#3A2C08;
+    font-size:14px;
+    box-shadow:0 4px 14px rgba(217,169,52,0.35), inset 0 -3px 6px rgba(0,0,0,0.2);
+    flex-shrink:0;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:26px;
+    letter-spacing:0.01em;
+    margin:0;
+  }
+  .brand p{margin:2px 0 0;color:var(--paper-dim);font-size:13px;}
+  .stat{font-family:'IBM Plex Mono',monospace;text-align:right;}
+  .stat .n{font-size:22px;color:var(--gold);display:block;}
+  .stat .l{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--paper-dim);}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media (max-width:820px){.grid{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--panel-line);
+    border-radius:var(--radius);
+    padding:22px;
+  }
+  .card h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin:0 0 4px;
+    color:var(--teal);
+  }
+  .card .sub{color:var(--paper-dim);font-size:12.5px;margin:0 0 18px;}
+
+  label{
+    display:block;font-size:11px;text-transform:uppercase;letter-spacing:0.07em;
+    color:var(--paper-dim);margin-bottom:6px;
+  }
+  input[type=text],input[type=date]{
+    width:100%;background:var(--ink-2);border:1px solid var(--panel-line);
+    color:var(--paper);padding:10px 12px;border-radius:8px;font-family:'IBM Plex Mono',monospace;
+    font-size:14px;letter-spacing:0.03em;
+  }
+  input:focus{outline:none;border-color:var(--gold-dim);}
+  .field{margin-bottom:14px;}
+  .row2{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;}
+
+  button{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;
+    letter-spacing:0.03em;text-transform:uppercase;
+    border:none;border-radius:8px;padding:11px 18px;cursor:pointer;
+    background:var(--gold);color:#2B2007;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  button:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(217,169,52,0.25);}
+  button.ghost{
+    background:transparent;color:var(--paper-dim);border:1px solid var(--panel-line);
+    padding:6px 10px;font-size:11px;
+  }
+  button.ghost:hover{color:var(--red);border-color:var(--red);box-shadow:none;}
+
+  .hint{font-size:11.5px;color:var(--paper-dim);margin-top:-6px;margin-bottom:14px;}
+
+  .list{display:flex;flex-direction:column;gap:12px;max-height:520px;overflow-y:auto;padding-right:4px;}
+  .ticket{
+    background:var(--ink-2);border:1px solid var(--panel-line);border-radius:10px;
+    padding:14px;
+  }
+  .ticket-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .ticket-label{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--paper-dim);}
+  .balls{display:flex;gap:7px;flex-wrap:wrap;}
+  .ball{
+    width:32px;height:32px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;
+    background:#1B2C46;color:var(--paper);border:1px solid var(--panel-line);
+  }
+  .ball.hit{
+    background:radial-gradient(circle at 32% 28%, #FCEBB0, var(--gold) 60%, var(--gold-dim) 100%);
+    color:#2B2007;border-color:transparent;
+    box-shadow:0 3px 10px rgba(217,169,52,0.35);
+  }
+  .ball.add{
+    box-shadow:0 0 0 2px var(--teal) inset;
+  }
+  .empty{color:var(--paper-dim);font-size:13px;padding:20px 4px;text-align:center;border:1px dashed var(--panel-line);border-radius:10px;}
+
+  .result-tag{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;
+    padding:3px 9px;border-radius:20px;text-transform:uppercase;
+  }
+  .result-tag.win{background:rgba(217,169,52,0.15);color:var(--gold);border:1px solid var(--gold-dim);}
+  .result-tag.none{background:rgba(255,255,255,0.04);color:var(--paper-dim);border:1px solid var(--panel-line);}
+
+  .draws-strip{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
+  .draw-row{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--ink-2);border:1px solid var(--panel-line);border-radius:10px;padding:10px 12px;
+  }
+  .draw-row .balls{gap:5px;}
+  .draw-row .ball{width:26px;height:26px;font-size:11px;}
+
+  .section-space{margin-top:26px;}
+  ::-webkit-scrollbar{width:8px;}
+  ::-webkit-scrollbar-thumb{background:var(--panel-line);border-radius:8px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="brand-mark">6/49</div>
+      <div>
+        <h1>TOTO Slip</h1>
+        <p>Track your bets, check them against draw results.</p>
+      </div>
+    </div>
+    <div class="stat">
+      <span class="n" id="statWins">0</span>
+      <span class="l" id="statLabel">tickets on record</span>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- ADD BET -->
+    <div class="card">
+      <h2>New bet</h2>
+      <p class="sub">6 numbers, 1–49, comma or space separated.</p>
+
+      <div class="field">
+        <label for="betLabel">Label (optional)</label>
+        <input type="text" id="betLabel" placeholder="e.g. Ordinary entry, birthday set">
+      </div>
+      <div class="field">
+        <label for="betNums">Numbers</label>
+        <input type="text" id="betNums" placeholder="e.g. 4, 12, 19, 23, 31, 47">
+      </div>
+      <div id="betError" class="hint" style="color:var(--red);display:none;"></div>
+      <button onclick="addBet()">Add bet</button>
+
+      <div class="section-space">
+        <h2>Your bets</h2>
+        <p class="sub" id="betsSub">Saved on this device.</p>
+        <div class="list" id="betsList"></div>
+      </div>
+    </div>
+
+    <!-- ADD DRAW -->
+    <div class="card">
+      <h2>New draw result</h2>
+      <p class="sub">6 winning numbers, plus the additional number.</p>
+
+      <div class="field">
+        <label for="drawDate">Draw date</label>
+        <input type="date" id="drawDate">
+      </div>
+      <div class="field">
+        <label for="drawNums">Winning numbers</label>
+        <input type="text" id="drawNums" placeholder="e.g. 3, 12, 19, 24, 31, 45">
+      </div>
+      <div class="field">
+        <label for="drawAdd">Additional number</label>
+        <input type="text" id="drawAdd" placeholder="e.g. 8">
+      </div>
+      <div id="drawError" class="hint" style="color:var(--red);display:none;"></div>
+      <button onclick="addDraw()">Add draw &amp; check bets</button>
+
+      <div class="section-space">
+        <h2>Draw history</h2>
+        <p class="sub">Most recent first.</p>
+        <div class="draws-strip" id="drawsList"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let bets = [];
+let draws = [];
+
+const PRIZE_GROUPS = [
+  {group:1, need:6, needAdd:false, label:"Group 1 — all 6 numbers"},
+  {group:2, need:5, needAdd:true,  label:"Group 2 — 5 + additional"},
+  {group:3, need:5, needAdd:false, label:"Group 3 — 5 numbers"},
+  {group:4, need:4, needAdd:true,  label:"Group 4 — 4 + additional"},
+  {group:5, need:4, needAdd:false, label:"Group 5 — 4 numbers"},
+  {group:6, need:3, needAdd:true,  label:"Group 6 — 3 + additional"},
+  {group:7, need:3, needAdd:false, label:"Group 7 — 3 numbers"},
+];
+
+function parseNums(str, expected){
+  const parts = str.split(/[\s,]+/).map(s=>s.trim()).filter(Boolean);
+  const nums = parts.map(p=>parseInt(p,10));
+  if(nums.length !== expected) return {error:`Enter exactly ${expected} number${expected>1?'s':''}.`};
+  if(nums.some(n=>isNaN(n) || n<1 || n>49)) return {error:"Numbers must be between 1 and 49."};
+  if(new Set(nums).size !== nums.length) return {error:"Numbers must be unique."};
+  return {nums: nums.sort((a,b)=>a-b)};
+}
+
+function bestPrize(betNums, drawNums, addNum){
+  const betSet = new Set(betNums);
+  const drawSet = new Set(drawNums);
+  const matchCount = [...betSet].filter(n=>drawSet.has(n)).length;
+  const hasAdd = betSet.has(addNum);
+  for(const pg of PRIZE_GROUPS){
+    if(matchCount === pg.need && (!pg.needAdd || hasAdd)){
+      return pg;
+    }
+  }
+  return null;
+}
+
+async function loadData(){
+  try{
+    const b = await window.storage.get('bets', false);
+    bets = b ? JSON.parse(b.value) : [];
+  }catch(e){ bets = []; }
+  try{
+    const d = await window.storage.get('draws', false);
+    draws = d ? JSON.parse(d.value) : [];
+  }catch(e){ draws = []; }
+  render();
+}
+
+async function saveBets(){ await window.storage.set('bets', JSON.stringify(bets), false); }
+async function saveDraws(){ await window.storage.set('draws', JSON.stringify(draws), false); }
+
+async function addBet(){
+  const labelEl = document.getElementById('betLabel');
+  const numsEl = document.getElementById('betNums');
+  const errEl = document.getElementById('betError');
+  const res = parseNums(numsEl.value, 6);
+  if(res.error){ errEl.textContent = res.error; errEl.style.display='block'; return; }
+  errEl.style.display='none';
+  bets.unshift({id: Date.now().toString(36), label: labelEl.value.trim(), nums: res.nums});
+  labelEl.value=''; numsEl.value='';
+  await saveBets();
+  render();
+}
+
+async function deleteBet(id){
+  bets = bets.filter(b=>b.id!==id);
+  await saveBets();
+  render();
+}
+
+async function addDraw(){
+  const dateEl = document.getElementById('drawDate');
+  const numsEl = document.getElementById('drawNums');
+  const addEl = document.getElementById('drawAdd');
+  const errEl = document.getElementById('drawError');
+
+  const res = parseNums(numsEl.value, 6);
+  if(res.error){ errEl.textContent = res.error; errEl.style.display='block'; return; }
+  const addRes = parseNums(addEl.value, 1);
+  if(addRes.error){ errEl.textContent = "Additional number must be a single value 1–49."; errEl.style.display='block'; return; }
+  if(res.nums.includes(addRes.nums[0])){ errEl.textContent = "Additional number can't repeat a winning number."; errEl.style.display='block'; return; }
+  errEl.style.display='none';
+
+  draws.unshift({
+    id: Date.now().toString(36),
+    date: dateEl.value || null,
+    nums: res.nums,
+    add: addRes.nums[0]
+  });
+  dateEl.value=''; numsEl.value=''; addEl.value='';
+  await saveDraws();
+  render();
+}
+
+async function deleteDraw(id){
+  draws = draws.filter(d=>d.id!==id);
+  await saveDraws();
+  render();
+}
+
+function fmtDate(d){
+  if(!d) return "Undated draw";
+  const dt = new Date(d+'T00:00:00');
+  return dt.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});
+}
+
+function render(){
+  document.getElementById('statWins').textContent = bets.length;
+  document.getElementById('statLabel').textContent = bets.length===1 ? "ticket on record" : "tickets on record";
+
+  // latest draw for matching, if any
+  const latestDraw = draws[0] || null;
+
+  const betsList = document.getElementById('betsList');
+  betsList.innerHTML = '';
+  if(bets.length===0){
+    betsList.innerHTML = '<div class="empty">No bets saved yet — add one above.</div>';
+  } else {
+    bets.forEach(bet=>{
+      const div = document.createElement('div');
+      div.className='ticket';
+      let tag = '<span class="result-tag none">Add a draw to check</span>';
+      let hitSet = new Set();
+      if(latestDraw){
+        const prize = bestPrize(bet.nums, latestDraw.nums, latestDraw.add);
+        hitSet = new Set(bet.nums.filter(n=>latestDraw.nums.includes(n)||n===latestDraw.add));
+        tag = prize
+          ? `<span class="result-tag win">${prize.label}</span>`
+          : `<span class="result-tag none">No prize vs latest draw</span>`;
+      }
+      div.innerHTML = `
+        <div class="ticket-top">
+          <span class="ticket-label">${bet.label ? bet.label : 'Bet'}</span>
+          ${tag}
+        </div>
+        <div class="balls">
+          ${bet.nums.map(n=>`<div class="ball ${hitSet.has(n)?'hit':''}">${n}</div>`).join('')}
+        </div>
+        <div style="text-align:right;margin-top:8px;">
+          <button class="ghost" onclick="deleteBet('${bet.id}')">Remove</button>
+        </div>
+      `;
+      betsList.appendChild(div);
+    });
+  }
+  document.getElementById('betsSub').textContent = latestDraw
+    ? `Checked against draw on ${fmtDate(latestDraw.date)}.`
+    : 'Saved on this device — add a draw result to check them.';
+
+  const drawsList = document.getElementById('drawsList');
+  drawsList.innerHTML = '';
+  if(draws.length===0){
+    drawsList.innerHTML = '<div class="empty">No draw results yet.</div>';
+  } else {
+    draws.forEach(d=>{
+      const row = document.createElement('div');
+      row.className='draw-row';
+      row.innerHTML = `
+        <div>
+          <div class="ticket-label" style="margin-bottom:6px;">${fmtDate(d.date)}</div>
+          <div class="balls">
+            ${d.nums.map(n=>`<div class="ball">${n}</div>`).join('')}
+            <div class="ball add" title="Additional number">${d.add}</div>
+          </div>
+        </div>
+        <button class="ghost" onclick="deleteDraw('${d.id}')">Remove</button>
+      `;
+      drawsList.appendChild(row);
+    });
+  }
+}
+
+loadData();
+</script>
+</body>
+</html>
